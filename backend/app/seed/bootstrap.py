@@ -154,13 +154,19 @@ SESIONES_PLAN = [
     (-11, 11, TipoSesion.practice,       "sofia.vargas@gmail.com",   2),
     (-10, 9,  TipoSesion.lab1,           "roberto.diaz@gmail.com",   4),
     (-9,  15, TipoSesion.lab2,           "laura.martinez@gmail.com", 3),
-    # Semana -1 (días 8-1 atrás)
+    # Semana -1 — días con múltiples tutores para probar el calendario
     (-8,  10, TipoSesion.conversacional, "sofia.vargas@gmail.com",   3),
+    (-8,  11, TipoSesion.lab1,           "roberto.diaz@gmail.com",   2),
     (-7,  9,  TipoSesion.practice,       "roberto.diaz@gmail.com",   2),
+    (-7,  10, TipoSesion.lab2,           "laura.martinez@gmail.com", 3),
+    (-7,  14, TipoSesion.conversacional, "sofia.vargas@gmail.com",   4),
     (-6,  14, TipoSesion.lab1,           "laura.martinez@gmail.com", 4),
+    (-6,  9,  TipoSesion.practice,       "sofia.vargas@gmail.com",   2),
     (-5,  9,  TipoSesion.lab2,           "sofia.vargas@gmail.com",   3),
     (-3,  11, TipoSesion.conversacional, "roberto.diaz@gmail.com",   4),
+    (-3,  9,  TipoSesion.lab1,           "laura.martinez@gmail.com", 3),
     (-1,  10, TipoSesion.practice,       "laura.martinez@gmail.com", 2),
+    (-1,  15, TipoSesion.lab2,           "roberto.diaz@gmail.com",   3),
 ]
 
 EMAILS_ESTUDIANTES = [
