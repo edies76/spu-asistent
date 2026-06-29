@@ -31,7 +31,7 @@ interface SesionActivaResp {
 }
 
 function formatHora(iso: string) {
-  return new Date(iso).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" });
+  return new Date(iso).toLocaleTimeString("en-US", { hour: "2-digit", minute: "2-digit" });
 }
 
 // ── Tarjeta de sesión expandible ─────────────────────────────────────────────
@@ -62,12 +62,12 @@ function SesionCard({ sesion, activa = false }: { sesion: SesionResumen; activa?
             {activa && (
               <span className="flex items-center gap-1 rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-bold text-green-700 uppercase tracking-wide">
                 <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse inline-block" />
-                Activa
+                Active
               </span>
             )}
           </div>
           <p className="text-xs text-slate-400">
-            {formatHora(sesion.iniciada_en)} · {sesion.n_estudiantes} estudiante{sesion.n_estudiantes !== 1 ? "s" : ""}
+            {formatHora(sesion.iniciada_en)} · {sesion.n_estudiantes} student{sesion.n_estudiantes !== 1 ? "s" : ""}
           </p>
         </div>
         <svg
@@ -92,7 +92,7 @@ function SesionCard({ sesion, activa = false }: { sesion: SesionResumen; activa?
 
       {open && sesion.estudiantes.length === 0 && (
         <div className="border-t border-slate-100 px-4 pb-3 pt-2.5">
-          <p className="text-xs text-slate-400">Sin asistencias registradas aún.</p>
+          <p className="text-xs text-slate-400">No attendance recorded yet.</p>
         </div>
       )}
     </div>
@@ -103,7 +103,7 @@ function SesionCard({ sesion, activa = false }: { sesion: SesionResumen; activa?
 export default function TutorHome({ user }: { user: Usuario }) {
   const nombre = user.nombre_completo.split(" ")[0];
   const hora = new Date().getHours();
-  const saludo = hora < 12 ? "Buenos días" : hora < 19 ? "Buenas tardes" : "Buenas noches";
+  const saludo = hora < 12 ? "Good morning" : hora < 19 ? "Good afternoon" : "Good evening";
 
   const [sesionActiva, setSesionActiva] = useState<SesionResumen | null>(null);
   const [recientes, setRecientes] = useState<SesionResumen[]>([]);
@@ -141,7 +141,7 @@ export default function TutorHome({ user }: { user: Usuario }) {
 
           {/* Botón escanear */}
           <Link
-            href="/escanear"
+            href="/scan"
             className="group relative flex flex-col items-center justify-center gap-4 overflow-hidden rounded-3xl bg-gradient-to-br from-brand-500 to-brand-700 px-8 py-12 text-white shadow-[0_8px_32px_rgba(47,99,245,0.4)] transition-all hover:shadow-[0_12px_40px_rgba(47,99,245,0.5)] hover:-translate-y-0.5 active:scale-[0.98]"
           >
             <div className="absolute -right-8 -top-8 h-32 w-32 rounded-full bg-white/10" />
@@ -153,15 +153,15 @@ export default function TutorHome({ user }: { user: Usuario }) {
               </svg>
             </div>
             <div className="relative text-center">
-              <p className="text-xl font-bold">Escanear código QR</p>
-              <p className="mt-1 text-sm text-white/75">Registra la asistencia de un estudiante</p>
+              <p className="text-xl font-bold">Scan QR Code</p>
+              <p className="mt-1 text-sm text-white/75">Record a student&apos;s attendance</p>
             </div>
           </Link>
 
           {/* Sesión activa */}
           {!cargando && sesionActiva && (
             <div>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">Sesión en curso</p>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">Active session</p>
               <SesionCard sesion={sesionActiva} activa />
             </div>
           )}
@@ -169,7 +169,7 @@ export default function TutorHome({ user }: { user: Usuario }) {
           {/* Sesiones recientes (últimas 24h, sin activa) */}
           {!cargando && recientes.length > 0 && (
             <div>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">Últimas 24 horas</p>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-400">Last 24 hours</p>
               <div className="space-y-2">
                 {recientes.map((s) => (
                   <SesionCard key={s.id} sesion={s} />

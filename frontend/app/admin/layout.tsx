@@ -6,8 +6,8 @@ import RoleGate from "@/components/RoleGate";
 import Header from "@/components/Header";
 
 const TABS = [
-  { href: "/admin/asistencias", label: "Lista" },
-  { href: "/admin/calendario",  label: "Calendario" },
+  { href: "/admin/attendance", label: "Attendance" },
+  { href: "/admin/calendar",   label: "Calendar" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

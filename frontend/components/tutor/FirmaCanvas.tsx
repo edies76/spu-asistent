@@ -86,8 +86,8 @@ export default function FirmaCanvas({ onGuardar, onCancelar }: Props) {
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
       <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
-        <p className="text-sm font-semibold text-slate-700">Firma del estudiante</p>
-        <button onClick={onCancelar} className="text-xs text-slate-400 hover:text-slate-600">Cancelar</button>
+        <p className="text-sm font-semibold text-slate-700">Student signature</p>
+        <button onClick={onCancelar} className="text-xs text-slate-400 hover:text-slate-600">Cancel</button>
       </div>
 
       <div className="p-3">
@@ -108,7 +108,7 @@ export default function FirmaCanvas({ onGuardar, onCancelar }: Props) {
           />
           {!tieneTrazo && (
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-              <p className="text-sm text-slate-400">Firma aquí</p>
+              <p className="text-sm text-slate-400">Sign here</p>
             </div>
           )}
         </div>
@@ -119,14 +119,14 @@ export default function FirmaCanvas({ onGuardar, onCancelar }: Props) {
           onClick={limpiar}
           className="btn-secondary flex-1 py-2 text-sm"
         >
-          Limpiar
+          Clear
         </button>
         <button
           onClick={guardar}
           disabled={!tieneTrazo}
           className="btn-primary flex-1 py-2 text-sm"
         >
-          Guardar firma
+          Save signature
         </button>
       </div>
     </div>

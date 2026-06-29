@@ -32,9 +32,9 @@ export default function EstudianteHome({ user }: { user: Usuario }) {
         <div className="w-full animate-fadein space-y-6">
 
           <div className="text-center">
-            <h1 className="text-2xl font-bold text-slate-800">Hola, {nombre} 👋</h1>
+            <h1 className="text-2xl font-bold text-slate-800">Hello, {nombre} 👋</h1>
             <p className="mt-1 text-sm text-slate-500">
-              Muestra tu QR al tutor al inicio de cada clase.
+              Show your QR to the tutor at the start of each class.
             </p>
           </div>
 
@@ -42,7 +42,7 @@ export default function EstudianteHome({ user }: { user: Usuario }) {
 
           <div className="rounded-2xl border border-slate-100 bg-white/80 px-5 py-4">
             <p className="text-center text-xs text-slate-400 leading-relaxed">
-              Este código es único y personal. El tutor lo escaneará para registrar tu asistencia automáticamente.
+              This code is unique and personal. The tutor will scan it to automatically record your attendance.
             </p>
           </div>
 

@@ -1,7 +1,7 @@
 "use client";
 
 // Home unificado: /home despacha a la pantalla de estudiante o tutor según rol.
-// (administrador no pasa por aquí: su home es /admin/asistencias.)
+// (administrador no pasa por aquí: su home es /admin/attendance.)
 
 import RoleGate from "@/components/RoleGate";
 import EstudianteHome from "@/components/estudiante/EstudianteHome";

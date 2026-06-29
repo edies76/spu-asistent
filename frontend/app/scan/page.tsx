@@ -13,14 +13,14 @@ import type { Usuario } from "@/lib/types";
 import FirmaCanvas from "@/components/tutor/FirmaCanvas";
 
 function formatFechaHora(d: Date) {
-  return d.toLocaleString("es-ES", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+  return d.toLocaleString("en-US", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
 }
 
 export default function EscanearPage() {
   return (
     <RoleGate roles={["tutor"]}>
       {(user) => (
-        <Suspense fallback={<LoadingScreen label="Cargando…" />}>
+        <Suspense fallback={<LoadingScreen label="Loading…" />}>
           <EscaneoInner user={user} />
         </Suspense>
       )}
@@ -45,10 +45,10 @@ interface FormState {
 }
 
 const TIPO_ICONO: Record<TipoSesion, { emoji: string; label: string; desc: string; color: string; bg: string }> = {
-  lab1:           { emoji: "📖", label: "Lab 1",          desc: "Lectura",        color: "text-violet-700", bg: "bg-violet-50 border-violet-200" },
-  lab2:           { emoji: "✍️",  label: "Lab 2",          desc: "Escritura",      color: "text-indigo-700", bg: "bg-indigo-50 border-indigo-200" },
-  practice:       { emoji: "🎙️", label: "Practice",       desc: "Práctica oral",  color: "text-amber-700",  bg: "bg-amber-50 border-amber-200"   },
-  conversacional: { emoji: "💬", label: "Conversacional",  desc: "Conversación",   color: "text-emerald-700",bg: "bg-emerald-50 border-emerald-200"},
+  lab1:           { emoji: "📖", label: "Lab 1",          desc: "Reading",        color: "text-violet-700", bg: "bg-violet-50 border-violet-200" },
+  lab2:           { emoji: "✍️",  label: "Lab 2",          desc: "Writing",        color: "text-indigo-700", bg: "bg-indigo-50 border-indigo-200" },
+  practice:       { emoji: "🎙️", label: "Practice",       desc: "Oral practice",  color: "text-amber-700",  bg: "bg-amber-50 border-amber-200"   },
+  conversacional: { emoji: "💬", label: "Conversacional",  desc: "Conversation",   color: "text-emerald-700",bg: "bg-emerald-50 border-emerald-200"},
 };
 
 function EscaneoInner({ user }: { user: Usuario }) {
@@ -97,7 +97,7 @@ function EscaneoInner({ user }: { user: Usuario }) {
         setPaso("seleccion_tipo");
       }
     } catch (err: any) {
-      setError(err?.code === "qr_no_encontrado" ? "Este QR no pertenece a ningún estudiante." : "No se pudo procesar el QR.");
+      setError(err?.code === "qr_no_encontrado" ? "This QR doesn't belong to any student." : "Could not process the QR.");
       setPaso("escaner");
     }
   }
@@ -106,9 +106,9 @@ function EscaneoInner({ user }: { user: Usuario }) {
     try {
       const url = new URL(valor);
       const qr = url.searchParams.get("qr");
-      if (qr) { router.replace(`/escanear?qr=${qr}`); return; }
+      if (qr) { router.replace(`/scan?qr=${qr}`); return; }
     } catch {}
-    router.replace(`/escanear?qr=${valor}`);
+    router.replace(`/scan?qr=${valor}`);
   }, [router]);
 
   function elegirTipo(tipo: TipoSesion) {
@@ -154,17 +154,17 @@ function EscaneoInner({ user }: { user: Usuario }) {
       setPaso("exito");
       setTimeout(() => router.replace("/home"), 2200);
     } catch {
-      setError("No se pudo guardar la asistencia.");
+      setError("Could not save the attendance.");
       setPaso("formulario");
     }
   }
 
-  if (paso === "cargando") return <LoadingScreen label="Verificando QR…" />;
-  if (paso === "guardando") return <LoadingScreen label="Guardando asistencia…" />;
+  if (paso === "cargando") return <LoadingScreen label="Verifying QR…" />;
+  if (paso === "guardando") return <LoadingScreen label="Saving attendance…" />;
 
   return (
     <>
-      <Header user={user} extraNav={[{ href: "/home", label: "← Inicio" }]} />
+      <Header user={user} extraNav={[{ href: "/home", label: "← Home" }]} />
       <main className="mx-auto max-w-md px-5 py-8">
         {error && (
           <div className="mb-4 flex items-center gap-2 rounded-xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700">
@@ -177,8 +177,8 @@ function EscaneoInner({ user }: { user: Usuario }) {
         {paso === "escaner" && (
           <div className="animate-fadein space-y-5">
             <div className="text-center">
-              <h1 className="text-xl font-bold text-slate-800">Escanear QR</h1>
-              <p className="mt-1 text-sm text-slate-500">Apunta al código QR del estudiante</p>
+              <h1 className="text-xl font-bold text-slate-800">Scan QR</h1>
+              <p className="mt-1 text-sm text-slate-500">Point at the student&apos;s QR code</p>
             </div>
             <QrScanner onResult={onQrEscaneado} />
           </div>
@@ -191,15 +191,15 @@ function EscaneoInner({ user }: { user: Usuario }) {
               <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-100 text-lg">👤</div>
               <div>
                 <p className="text-sm font-semibold text-brand-900">{form.estudiante.nombre_completo}</p>
-                <p className="text-xs text-brand-600">Estudiante identificado</p>
+                <p className="text-xs text-brand-600">Student identified</p>
               </div>
             </div>
 
             <div>
-              <h1 className="text-xl font-bold text-slate-800">¿Tipo de sesión?</h1>
+              <h1 className="text-xl font-bold text-slate-800">Session type?</h1>
               {tipoSugerido && (
                 <p className="mt-1 text-xs text-slate-500">
-                  Sugerencia basada en tu última clase: <strong>{labelTipo(tipoSugerido)}</strong>
+                  Suggestion based on your last session: <strong>{labelTipo(tipoSugerido)}</strong>
                 </p>
               )}
             </div>
@@ -231,8 +231,8 @@ function EscaneoInner({ user }: { user: Usuario }) {
         {paso === "formulario" && form && (
           <div className="animate-fadein space-y-5">
             <div>
-              <h1 className="text-xl font-bold text-slate-800">Registrar asistencia</h1>
-              <p className="mt-0.5 text-sm text-slate-500">Completa el desempeño del estudiante</p>
+              <h1 className="text-xl font-bold text-slate-800">Record Attendance</h1>
+              <p className="mt-0.5 text-sm text-slate-500">Fill in the student&apos;s performance</p>
             </div>
 
             {/* Info sesión */}
@@ -244,22 +244,22 @@ function EscaneoInner({ user }: { user: Usuario }) {
                   {form.sesionActivaId && (
                     <span className="ml-auto flex items-center gap-1 rounded-full bg-green-100 px-2 py-0.5 text-[10px] font-bold text-green-700">
                       <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse inline-block" />
-                      Sesión activa
+                      Active session
                     </span>
                   )}
                 </div>
               </div>
               <div className="divide-y divide-slate-100 px-4 py-1">
-                <InfoRow label="Estudiante" value={form.estudiante.nombre_completo} />
+                <InfoRow label="Student" value={form.estudiante.nombre_completo} />
                 <InfoRow label="Tutor" value={form.tutor.nombre_completo} />
-                <InfoRow label="Fecha y hora" value={formatFechaHora(form.fechaHora)} />
+                <InfoRow label="Date & Time" value={formatFechaHora(form.fechaHora)} />
               </div>
 
               {/* Opción crear nueva sesión si hay activa */}
               {form.sesionActivaId && (
                 <div className="border-t border-slate-100 px-4 py-2.5">
                   <button onClick={crearNuevaSesion} className="text-xs text-slate-400 hover:text-brand-600 transition">
-                    + Crear nueva sesión en vez de unirse a la activa
+                    + Create new session instead of joining the active one
                   </button>
                 </div>
               )}
@@ -278,8 +278,8 @@ function EscaneoInner({ user }: { user: Usuario }) {
               >
                 <span className="text-2xl">✍️</span>
                 <div className="flex-1">
-                  <p className="text-sm font-semibold text-slate-800">Añadir Lab 2 (2×1)</p>
-                  <p className="text-xs text-slate-500">El estudiante hizo Lab 1 + Lab 2 hoy</p>
+                  <p className="text-sm font-semibold text-slate-800">Add Lab 2 (2×1)</p>
+                  <p className="text-xs text-slate-500">Student completed Lab 1 + Lab 2 today</p>
                 </div>
                 <div className={`flex h-5 w-5 items-center justify-center rounded-full border-2 transition ${
                   form.incluirLab2 ? "border-indigo-500 bg-indigo-500" : "border-slate-300"
@@ -295,7 +295,7 @@ function EscaneoInner({ user }: { user: Usuario }) {
 
             {/* Desempeño */}
             <div>
-              <p className="label">¿Cómo le fue? <span className="text-red-400">*</span></p>
+              <p className="label">How did they do? <span className="text-red-400">*</span></p>
               <div className="grid grid-cols-2 gap-2">
                 {DESEMPENO_OPCIONES.map((op) => (
                   <button
@@ -318,11 +318,11 @@ function EscaneoInner({ user }: { user: Usuario }) {
             {/* Notas */}
             <div>
               <label className="label" htmlFor="notas">
-                Notas <span className="font-normal text-slate-400">(opcional)</span>
+                Notes <span className="font-normal text-slate-400">(optional)</span>
               </label>
               <textarea
                 id="notas" rows={3} className="field"
-                placeholder="Observaciones del tutor…"
+                placeholder="Tutor observations…"
                 value={form.notas}
                 onChange={(e) => setForm({ ...form, notas: e.target.value })}
               />
@@ -339,7 +339,7 @@ function EscaneoInner({ user }: { user: Usuario }) {
                   <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
                   </svg>
-                  Agregar firma del estudiante (opcional)
+                  Add student signature (optional)
                 </button>
               )}
 
@@ -355,11 +355,11 @@ function EscaneoInner({ user }: { user: Usuario }) {
                   <div className="flex items-center justify-between px-4 py-2.5 border-b border-slate-100">
                     <p className="text-sm font-medium text-slate-700 flex items-center gap-1.5">
                       <svg className="h-4 w-4 text-green-500" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" /></svg>
-                      Firma capturada
+                      Signature captured
                     </p>
-                    <button onClick={() => setForm({ ...form, firma: null })} className="text-xs text-slate-400 hover:text-red-500">Quitar</button>
+                    <button onClick={() => setForm({ ...form, firma: null })} className="text-xs text-slate-400 hover:text-red-500">Remove</button>
                   </div>
-                  <img src={form.firma} alt="Firma" className="h-20 w-full object-contain p-2" />
+                  <img src={form.firma} alt="Signature" className="h-20 w-full object-contain p-2" />
                 </div>
               )}
             </div>
@@ -369,7 +369,7 @@ function EscaneoInner({ user }: { user: Usuario }) {
               disabled={!form.desempeno}
               className="btn-primary w-full py-3.5"
             >
-              {form.incluirLab2 ? "Finalizar y guardar Lab 1 + Lab 2" : "Finalizar y guardar asistencia"}
+              {form.incluirLab2 ? "Save Lab 1 + Lab 2" : "Save attendance"}
             </button>
           </div>
         )}
@@ -382,7 +382,7 @@ function EscaneoInner({ user }: { user: Usuario }) {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
               </svg>
             </div>
-            <h1 className="text-xl font-bold text-slate-800">¡Asistencia registrada!</h1>
+            <h1 className="text-xl font-bold text-slate-800">Attendance recorded!</h1>
             <p className="mt-2 text-sm text-slate-600 font-medium">{form.estudiante.nombre_completo}</p>
             <div className="mt-2 flex items-center justify-center gap-2">
               <span className="text-lg">{TIPO_ICONO[form.tipo].emoji}</span>
@@ -392,7 +392,7 @@ function EscaneoInner({ user }: { user: Usuario }) {
             <p className="mt-1 text-sm text-slate-400">
               {DESEMPENO_OPCIONES.find(d => d.value === form.desempeno)?.emoji} {DESEMPENO_OPCIONES.find(d => d.value === form.desempeno)?.label}
             </p>
-            <p className="mt-3 text-xs text-slate-400">Volviendo al inicio…</p>
+            <p className="mt-3 text-xs text-slate-400">Returning to home…</p>
           </div>
         )}
       </main>

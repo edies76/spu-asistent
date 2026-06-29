@@ -37,6 +37,6 @@ export function homePorRol(rol: Usuario["rol"]): string {
     case "tutor":
       return "/home";
     case "administrador":
-      return "/admin/asistencias";
+      return "/admin/attendance";
   }
 }

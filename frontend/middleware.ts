@@ -14,7 +14,7 @@ import type { NextRequest } from "next/server";
 const TOKEN_COOKIE = "asistencia_token";
 
 // Rutas públicas.
-const PUBLIC_PATHS = ["/login", "/registro"];
+const PUBLIC_PATHS = ["/login", "/register"];
 
 function hasToken(req: NextRequest): boolean {
   return Boolean(req.cookies.get(TOKEN_COOKIE)?.value);
@@ -24,7 +24,7 @@ export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
   const autenticado = hasToken(req);
 
-  // Páginas públicas: si ya está logueado e intenta ir a /login o /registro,
+  // Páginas públicas: si ya está logueado e intenta ir a /login o /register,
   // lo mandamos a la raíz para que / decida su home por rol.
   if (PUBLIC_PATHS.includes(pathname)) {
     if (autenticado && pathname === "/login") {

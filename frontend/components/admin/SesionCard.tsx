@@ -20,14 +20,14 @@ const DESEMPENO_MAP: Record<Desempeno, { label: string; emoji: string; color: st
 };
 
 function formatFecha(iso: string) {
-  return new Date(iso).toLocaleString("es-ES", {
+  return new Date(iso).toLocaleString("en-US", {
     day: "2-digit", month: "short", year: "numeric",
     hour: "2-digit", minute: "2-digit",
   });
 }
 
 function formatFechaCorta(iso: string) {
-  return new Date(iso).toLocaleString("es-ES", {
+  return new Date(iso).toLocaleString("en-US", {
     day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit",
   });
 }
@@ -50,7 +50,7 @@ function AsistenciaRow({ a, onSaved }: { a: Asistencia; onSaved: (u: Asistencia)
       onSaved(updated);
       setEditando(false);
     } catch {
-      setError("No se pudo guardar.");
+      setError("Could not save.");
     } finally {
       setGuardando(false);
     }
@@ -71,7 +71,7 @@ function AsistenciaRow({ a, onSaved }: { a: Asistencia; onSaved: (u: Asistencia)
                   {d.emoji} {d.label}
                 </span>
               ) : (
-                <span className="text-xs text-slate-400 italic">Sin desempeño</span>
+                <span className="text-xs text-slate-400 italic">No performance</span>
               )}
               {a.notas && (
                 <span className="text-xs text-slate-500 truncate max-w-[200px]">· {a.notas}</span>
@@ -81,7 +81,7 @@ function AsistenciaRow({ a, onSaved }: { a: Asistencia; onSaved: (u: Asistencia)
 
           {a.editado_en && !editando && (
             <p className="mt-1 text-[11px] text-slate-400">
-              ✏️ Editado el {formatFechaCorta(a.editado_en)}
+              ✏️ Edited on {formatFechaCorta(a.editado_en)}
             </p>
           )}
         </div>
@@ -91,7 +91,7 @@ function AsistenciaRow({ a, onSaved }: { a: Asistencia; onSaved: (u: Asistencia)
             onClick={() => setEditando(true)}
             className="shrink-0 rounded-lg px-2.5 py-1 text-xs font-semibold text-slate-500 hover:bg-slate-100 hover:text-brand-600 transition"
           >
-            Editar
+            Edit
           </button>
         )}
       </div>
@@ -100,7 +100,7 @@ function AsistenciaRow({ a, onSaved }: { a: Asistencia; onSaved: (u: Asistencia)
         <div className="mt-3 space-y-3">
           {/* Selector desempeño */}
           <div>
-            <p className="mb-1.5 text-xs font-medium text-slate-500">Desempeño</p>
+            <p className="mb-1.5 text-xs font-medium text-slate-500">Performance</p>
             <div className="grid grid-cols-2 gap-1.5">
               {DESEMPENO_OPCIONES.map((op) => (
                 <button
@@ -125,7 +125,7 @@ function AsistenciaRow({ a, onSaved }: { a: Asistencia; onSaved: (u: Asistencia)
             className="field text-sm"
             value={notas}
             onChange={(e) => setNotas(e.target.value)}
-            placeholder="Notas opcionales…"
+            placeholder="Optional notes…"
           />
 
           {error && <p className="text-xs text-red-600">{error}</p>}
@@ -136,14 +136,14 @@ function AsistenciaRow({ a, onSaved }: { a: Asistencia; onSaved: (u: Asistencia)
               className="btn-secondary flex-1 py-2 text-sm"
               disabled={guardando}
             >
-              Cancelar
+              Cancel
             </button>
             <button
               onClick={guardar}
               className="btn-primary flex-1 py-2 text-sm"
               disabled={guardando}
             >
-              {guardando ? "Guardando…" : "Guardar"}
+              {guardando ? "Saving…" : "Save"}
             </button>
           </div>
         </div>
@@ -185,7 +185,7 @@ export default function SesionCard({ sesion: inicial }: { sesion: SesionDetalle 
         {/* Conteo + toggle */}
         <div className="shrink-0 text-right">
           <p className="text-sm font-bold text-slate-700">
-            {asistencias.length} <span className="font-normal text-slate-400">est.</span>
+            {asistencias.length} <span className="font-normal text-slate-400">st.</span>
           </p>
           <svg
             className={`ml-auto mt-1 h-4 w-4 text-slate-400 transition-transform ${expandido ? "rotate-180" : ""}`}
@@ -199,7 +199,7 @@ export default function SesionCard({ sesion: inicial }: { sesion: SesionDetalle 
       {expandido && (
         <div className="space-y-2 border-t border-slate-100 bg-slate-50 px-5 py-4 animate-fadein">
           {asistencias.length === 0 ? (
-            <p className="py-4 text-center text-sm text-slate-400">Sin registros en esta sesión.</p>
+            <p className="py-4 text-center text-sm text-slate-400">No records in this session.</p>
           ) : (
             asistencias.map((a) => <AsistenciaRow key={a.id} a={a} onSaved={onSaved} />)
           )}

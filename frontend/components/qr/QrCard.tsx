@@ -9,13 +9,13 @@ import { Spinner } from "@/components/Feedback";
 import { API_URL } from "@/lib/api";
 
 // El QR codifica una URL directa al flujo de escaneo del tutor.
-// Al escanear desde la cámara del celular abre /escanear?qr={uuid}.
+// Al escanear desde la cámara del celular abre /scan?qr={uuid}.
 function qrUrl(qrId: string): string {
   // Si el frontend tiene base URL configurada usarla, si no usar window.location.origin.
   if (typeof window !== "undefined") {
-    return `${window.location.origin}/escanear?qr=${qrId}`;
+    return `${window.location.origin}/scan?qr=${qrId}`;
   }
-  return `/escanear?qr=${qrId}`;
+  return `/scan?qr=${qrId}`;
 }
 
 export default function QrCard({
@@ -49,7 +49,7 @@ export default function QrCard({
       >
         {cargando || !qrId ? (
           <div className="flex h-[264px] w-[264px] items-center justify-center">
-            <Spinner label="Generando QR…" />
+            <Spinner label="Generating QR…" />
           </div>
         ) : (
           // size alto para "alta resolución"; el PNG hereda esa resolución.
@@ -64,7 +64,7 @@ export default function QrCard({
 
       <div className="text-center">
         <p className="text-lg font-bold text-slate-800">{nombre}</p>
-        <p className="text-xs text-slate-400">Muestra este QR al iniciar tu clase</p>
+        <p className="text-xs text-slate-400">Show this QR at the start of your class</p>
       </div>
 
       <button
@@ -72,7 +72,7 @@ export default function QrCard({
         className="btn-primary w-full"
         disabled={!qrId}
       >
-        ⬇️ Descargar QR
+        ⬇️ Download QR
       </button>
     </div>
   );

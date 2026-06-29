@@ -4,7 +4,7 @@
 //
 // Se usa dentro de cada página protegida. Consulta /auth/me:
 //  - sin sesión -> redirige a /login
-//  - rol no permitido -> pantalla breve "Eres X, no tienes acceso a esta sección"
+//  - rol no permitido -> pantalla breve "You are X and don't have access to this section"
 //    (un solo mensaje, sin más contenido) — sección 6.
 //  - ok -> renderiza children con el usuario inyectado.
 //
@@ -54,9 +54,9 @@ export default function RoleGate({
   if (cargando) return <LoadingScreen />;
   if (denegado) {
     const frase: Record<Rol, string> = {
-      estudiante: "Eres estudiante, no tienes acceso a esta sección.",
-      tutor: "Eres tutor, no tienes acceso a esta sección.",
-      administrador: "Eres administrador, no tienes acceso a esta sección.",
+      estudiante: "You are a student and don't have access to this section.",
+      tutor: "You are a tutor and don't have access to this section.",
+      administrador: "You are an administrator and don't have access to this section.",
     };
     return (
       <main className="flex min-h-screen items-center justify-center p-6">

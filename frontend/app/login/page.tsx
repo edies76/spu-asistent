@@ -33,8 +33,8 @@ function LoginInner() {
     } catch (err: any) {
       setError(
         err?.code === "credenciales_invalidas"
-          ? "Correo o contraseña incorrectos."
-          : "No se pudo iniciar sesión. Inténtalo de nuevo."
+          ? "Incorrect email or password."
+          : "Could not sign in. Please try again."
       );
     } finally {
       setLoading(false);
@@ -53,15 +53,15 @@ function LoginInner() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 18.75h.75v.75h-.75v-.75zM18.75 13.5h.75v.75h-.75v-.75zM18.75 18.75h.75v.75h-.75v-.75zM16.5 16.5h.75v.75h-.75v-.75z" />
             </svg>
           </div>
-          <h1 className="text-2xl font-bold text-slate-800">Bienvenido</h1>
-          <p className="mt-1 text-sm text-slate-500">Sistema de Asistencia QR</p>
+          <h1 className="text-2xl font-bold text-slate-800">Welcome</h1>
+          <p className="mt-1 text-sm text-slate-500">QR Attendance System</p>
         </div>
 
         {/* Card */}
         <div className="card p-8">
           <form onSubmit={onSubmit} className="space-y-5">
             <div>
-              <label className="label" htmlFor="email">Correo electrónico</label>
+              <label className="label" htmlFor="email">Email</label>
               <input
                 id="email"
                 type="email"
@@ -70,12 +70,12 @@ function LoginInner() {
                 className="field"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="tucorreo@ejemplo.com"
+                placeholder="your@email.com"
               />
             </div>
 
             <div>
-              <label className="label" htmlFor="password">Contraseña</label>
+              <label className="label" htmlFor="password">Password</label>
               <input
                 id="password"
                 type="password"
@@ -98,14 +98,14 @@ function LoginInner() {
             )}
 
             <button type="submit" className="btn-primary w-full py-3.5" disabled={loading}>
-              {loading ? <><Spinner /> Entrando…</> : "Iniciar sesión"}
+              {loading ? <><Spinner /> Signing in…</> : "Sign in"}
             </button>
           </form>
 
           <p className="mt-6 text-center text-sm text-slate-500">
-            ¿No tienes cuenta?{" "}
-            <Link href="/registro" className="font-semibold text-brand-600 hover:underline">
-              Regístrate
+            Don&apos;t have an account?{" "}
+            <Link href="/register" className="font-semibold text-brand-600 hover:underline">
+              Register
             </Link>
           </p>
         </div>
