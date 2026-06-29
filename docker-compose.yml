@@ -1,0 +1,65 @@
+# Docker Compose: Sistema de Asistencia con Código QR
+# Levanta PostgreSQL + backend (FastAPI) + frontend (Next.js).
+#
+# Uso:
+#   docker compose up --build        # primer arranque
+#   docker compose up                # arranques posteriores
+#   docker compose down              # detener
+#   docker compose down -v           # detener y borrar el volumen de la BD
+
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: asistencia_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-asistencia}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-asistencia_pwd}
+      POSTGRES_DB: ${POSTGRES_DB:-asistencia}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - asistencia_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-asistencia} -d ${POSTGRES_DB:-asistencia}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: asistencia_backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql+psycopg2://${POSTGRES_USER:-asistencia}:${POSTGRES_PASSWORD:-asistencia_pwd}@db:5432/${POSTGRES_DB:-asistencia}
+      JWT_SECRET: ${JWT_SECRET:-cambia_esto_en_produccion_por_un_secreto_largo}
+      JWT_ALGORITHM: HS256
+      JWT_EXPIRE_MINUTES: "10080"
+      FRONTEND_ORIGIN: ${FRONTEND_ORIGIN:-http://localhost:3000}
+      COOKIE_SECURE: ${COOKIE_SECURE:-false}
+      ACTIVE_SESSION_WINDOW_MIN: "20"
+      LAST_TYPE_MEMORY_HOURS: "10"
+      RUN_SEED: "true"
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: asistencia_frontend
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+    ports:
+      - "3000:3000"
+
+volumes:
+  asistencia_pgdata:
