@@ -28,7 +28,7 @@ const DIAS_SEMANA = ["Lu","Ma","Mi","Ju","Vi","Sa","Do"];
 const MESES = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
 
 const TIPO_ICONO: Record<TipoSesion, string> = {
-  lab1: "🎧", lab2: "✍️", practice: "🗣️", conversacional: "💬",
+  lab1: "📖", lab2: "✍️", practice: "🎙️", conversacional: "💬",
 };
 
 // ── Panel de día (pantalla completa sobre el calendario) ──────────────────────

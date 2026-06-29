@@ -6,9 +6,9 @@ import type { SesionDetalle, Asistencia, TipoSesion, Desempeno } from "@/lib/typ
 import { labelTipo, DESEMPENO_OPCIONES } from "@/lib/types";
 
 const TIPO_ICONO: Record<TipoSesion, { emoji: string; color: string; bg: string }> = {
-  lab1:          { emoji: "🧪", color: "text-violet-700", bg: "bg-violet-100" },
-  lab2:          { emoji: "⚗️",  color: "text-indigo-700", bg: "bg-indigo-100" },
-  practice:      { emoji: "✏️",  color: "text-amber-700",  bg: "bg-amber-100"  },
+  lab1:          { emoji: "📖", color: "text-violet-700", bg: "bg-violet-100" },
+  lab2:          { emoji: "✍️",  color: "text-indigo-700", bg: "bg-indigo-100" },
+  practice:      { emoji: "🎙️", color: "text-amber-700",  bg: "bg-amber-100"  },
   conversacional:{ emoji: "💬", color: "text-emerald-700", bg: "bg-emerald-100" },
 };
 

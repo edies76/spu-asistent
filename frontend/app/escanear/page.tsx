@@ -45,9 +45,9 @@ interface FormState {
 }
 
 const TIPO_ICONO: Record<TipoSesion, { emoji: string; label: string; desc: string; color: string; bg: string }> = {
-  lab1:           { emoji: "🎧", label: "Lab 1",          desc: "Escucha",        color: "text-violet-700", bg: "bg-violet-50 border-violet-200" },
+  lab1:           { emoji: "📖", label: "Lab 1",          desc: "Lectura",        color: "text-violet-700", bg: "bg-violet-50 border-violet-200" },
   lab2:           { emoji: "✍️",  label: "Lab 2",          desc: "Escritura",      color: "text-indigo-700", bg: "bg-indigo-50 border-indigo-200" },
-  practice:       { emoji: "🗣️", label: "Practice",       desc: "Hablar",         color: "text-amber-700",  bg: "bg-amber-50 border-amber-200"   },
+  practice:       { emoji: "🎙️", label: "Practice",       desc: "Práctica oral",  color: "text-amber-700",  bg: "bg-amber-50 border-amber-200"   },
   conversacional: { emoji: "💬", label: "Conversacional",  desc: "Conversación",   color: "text-emerald-700",bg: "bg-emerald-50 border-emerald-200"},
 };
 
